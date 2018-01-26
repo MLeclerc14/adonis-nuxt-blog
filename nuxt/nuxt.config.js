@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 module.exports = {
   /*
   ** Headers of the page
@@ -14,15 +16,6 @@ module.exports = {
     ]
   },
   /*
-  ** List of modules
-  */
-  modules: [
-    'bootstrap-vue/nuxt',
-
-    // Or if you have custom bootstrap CSS...
-    ['bootstrap-vue/nuxt', { css: false }],
-  ],
-  /*
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },
@@ -30,6 +23,15 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    vendor: ['jquery', 'bootstrap'],
+    plugins: [
+      // set shortcuts as global for bootstrap
+      new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery'
+      })
+    ],
     /*
     ** Run ESLint on save
     */
@@ -43,5 +45,9 @@ module.exports = {
         })
       }
     }
-  }
+  },
+  // include bootstrap css
+  css: ['bootstrap/dist/css/bootstrap.css'],
+  // include bootstrap js on startup
+  plugins: ['~plugins/bootstrap.js']
 }
